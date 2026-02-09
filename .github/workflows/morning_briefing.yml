@@ -1,0 +1,53 @@
+name: Daily Morning Briefing
+
+on:
+  # 매일 한국시간 오전 7시 (UTC 22시, 전날) 자동 실행
+  schedule:
+    - cron: '0 22 * * 0-4'  # 일~목 UTC 22:00 = 한국 월~금 07:00
+  # 수동 실행
+  workflow_dispatch:
+
+jobs:
+  morning-briefing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install yfinance pandas numpy plotly kaleido==0.2.1
+
+      - name: Set timezone
+        run: |
+          sudo timedatectl set-timezone Asia/Seoul || true
+          export TZ=Asia/Seoul
+
+      - name: Run Morning Briefing & Send to Telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TZ: Asia/Seoul
+        run: |
+          python telegram_sender.py
+
+      - name: Upload report artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: morning-briefing-${{ github.run_number }}
+          path: |
+            reports/morning_briefing_*.md
+            reports/morning_data_*.json
+            reports/charts/morning_*.png
+          retention-days: 30
