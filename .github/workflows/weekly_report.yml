@@ -1,0 +1,95 @@
+name: Weekly Portfolio Report
+
+on:
+  # 매주 일요일 한국시간 오전 9시 (UTC 토요일 24:00 = 일요일 00:00)
+  schedule:
+    - cron: '0 0 * * 0'  # 토 UTC 00:00 = 한국 일 09:00
+  workflow_dispatch:
+
+jobs:
+  weekly-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install yfinance pandas numpy plotly kaleido==0.2.1
+
+      - name: Set timezone
+        run: |
+          export TZ=Asia/Seoul
+
+      - name: Run Weekly Analysis
+        env:
+          TZ: Asia/Seoul
+        run: |
+          python run_analysis.py
+
+      - name: Send Weekly Report to Telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TZ: Asia/Seoul
+        run: |
+          python -c "
+          import sys, os, glob
+          sys.path.insert(0, '.')
+          from telegram_sender import TelegramBot, format_report_for_telegram
+
+          REPORT_DIR = 'reports'
+          CHART_DIR = os.path.join(REPORT_DIR, 'charts')
+
+          # 최신 주간 리포트 발송
+          reports = sorted(glob.glob(os.path.join(REPORT_DIR, 'weekly_report_*.md')), reverse=True)
+          if not reports:
+              print('No weekly report found')
+              sys.exit(1)
+
+          with open(reports[0], 'r', encoding='utf-8') as f:
+              report = f.read()
+
+          bot = TelegramBot()
+          telegram_text = format_report_for_telegram(report)
+          bot.send_message(telegram_text)
+
+          # 주요 차트 발송
+          chart_files = [
+              'chart_01_portfolio_pie_1.png',
+              'chart_01_portfolio_pie_2.png',
+              'chart_03_returns_comparison.png',
+              'chart_04_technical_heatmap.png',
+              'chart_05_price_trends.png',
+              'chart_08_rebalancing_1.png',
+              'chart_08_rebalancing_2.png',
+              'chart_09_radar.png',
+          ]
+          for cf in chart_files:
+              path = os.path.join(CHART_DIR, cf)
+              if os.path.exists(path):
+                  bot.send_photo(path, cf.replace('.png','').replace('_',' '))
+
+          print('Weekly report sent to Telegram!')
+          "
+
+      - name: Upload report artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: weekly-report-${{ github.run_number }}
+          path: |
+            reports/weekly_report_*.md
+            reports/weekly_data_*.json
+            reports/charts/chart_*.png
+          retention-days: 90
