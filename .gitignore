@@ -3,3 +3,4 @@ __pycache__/
 reports/*.md
 reports/*.json
 reports/*.log
+reports/nps_13f_cache/
