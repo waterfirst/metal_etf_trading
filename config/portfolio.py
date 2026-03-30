@@ -53,6 +53,7 @@ ASSET_CLASSES = {
 
 # ============================================================
 # 계좌 1: 연금저축 CMA (7156074820-15)
+# 2026-03-30 매도 반영: S&P500 500주, 나스닥 50주 → MMF 전환
 # ============================================================
 PENSION_SAVINGS_ACCOUNT = {
     "account_name": "연금저축 CMA",
@@ -60,16 +61,18 @@ PENSION_SAVINGS_ACCOUNT = {
     "holdings": {
         "KODEX 200": {"shares": 71, "avg_value": 5_562_140},
         "KODEX 증권": {"shares": 1_686, "avg_value": 39_283_800},
-        "KODEX 미국S&P500": {"shares": 1_000, "avg_value": 22_945_000},
-        "KODEX 미국나스닥100": {"shares": 1_009, "avg_value": 24_513_655},
+        "KODEX 미국S&P500": {"shares": 500, "avg_value": 11_472_500},
+        "KODEX 미국나스닥100": {"shares": 959, "avg_value": 23_299_405},
         "ACE KRX금현물": {"shares": 588, "avg_value": 19_615_680},
         "ACE 구글밸류체인액티브": {"shares": 784, "avg_value": 13_339_760},
         "KODEX 미국AI전력핵심인프라": {"shares": 615, "avg_value": 11_325_225},
+        "MMF": {"shares": 0, "avg_value": 12_687_250},  # S&P 500주 + 나스닥 50주 매도 대금
     },
 }
 
 # ============================================================
 # 계좌 2: 퇴직연금 DC (62636131-55)
+# 2026-03-30 매도 반영: S&P500 500주 → MMF 전환
 # ============================================================
 RETIREMENT_DC_ACCOUNT = {
     "account_name": "퇴직연금 DC",
@@ -82,11 +85,12 @@ RETIREMENT_DC_ACCOUNT = {
         "SOL 조선TOP3플러스": {"shares": 538, "avg_value": 19_061_340},
         "PLUS 고배당주": {"shares": 313, "avg_value": 8_036_275},
         "ACE KRX금현물": {"shares": 816, "avg_value": 27_221_760},
-        "KODEX 미국S&P500": {"shares": 1_437, "avg_value": 32_971_965},
+        "KODEX 미국S&P500": {"shares": 937, "avg_value": 21_499_991},
         "KODEX 200미국채혼합": {"shares": 3_248, "avg_value": 61_403_440},
         "TIGER 코리아휴머노이드로봇산업": {"shares": 371, "avg_value": 5_182_870},
         "KODEX 미국나스닥100": {"shares": 1_122, "avg_value": 27_258_990},
         "TIGER TDF2045": {"shares": 2_320, "avg_value": 26_993_200},
+        "MMF": {"shares": 0, "avg_value": 11_471_974},  # S&P 500주 매도 대금
     },
 }
 
