@@ -127,10 +127,10 @@ DC_DCA_SCHEDULE = {
     "end_date": "2026-09-30",
     "items": [
         {"name": "TIGER 반도체TOP10", "amount": 500_000, "day": "목", "time": "15:00", "type": "시장가"},
-        {"name": "ACE KRX금현물", "amount": 100_000, "day": "화", "time": "15:00", "type": "시장가"},
-        {"name": "TIGER 코리아원자력", "amount": 500_000, "day": "화", "time": "15:00", "type": "시장가"},
-        {"name": "KoAct 코스닥액티브", "amount": 200_000, "day": "화", "time": "15:00", "type": "시장가"},
-        {"name": "KODEX 증권", "amount": 300_000, "day": "화", "time": "15:00", "type": "시장가"},
+        {"name": "ACE KRX금현물", "amount": 200_000, "day": "목", "time": "15:00", "type": "시장가"},
+        {"name": "TIGER 코리아원자력", "amount": 500_000, "day": "목", "time": "15:00", "type": "시장가"},
+        {"name": "KoAct 코스닥액티브", "amount": 200_000, "day": "목", "time": "15:00", "type": "시장가"},
+        {"name": "KODEX 증권", "amount": 200_000, "day": "목", "time": "15:00", "type": "시장가"},
     ],
 }
 
