@@ -18,6 +18,8 @@ KOREAN_ETF_TICKERS = {
     "KODEX 200미국채혼합": "284430.KS",
     "TIGER 코리아휴머노이드로봇산업": "490050.KS",
     "TIGER TDF2045": "327080.KS",
+    "TIGER 코리아원자력": "471920.KS",
+    "KoAct 코스닥액티브": "467810.KS",
 }
 
 # 섹터 분류
@@ -36,6 +38,8 @@ ETF_SECTORS = {
     "KODEX 200미국채혼합": "혼합_채권",
     "TIGER 코리아휴머노이드로봇산업": "국내주식_테마",
     "TIGER TDF2045": "혼합_TDF",
+    "TIGER 코리아원자력": "국내주식_테마",
+    "KoAct 코스닥액티브": "국내주식_대형",
 }
 
 # 자산유형 대분류
@@ -95,6 +99,23 @@ RETIREMENT_DC_ACCOUNT = {
 }
 
 ALL_ACCOUNTS = [PENSION_SAVINGS_ACCOUNT, RETIREMENT_DC_ACCOUNT]
+
+# ============================================================
+# 퇴직연금 DC 적립식 자동매수 설정 (2026-03-31 확인)
+# 예약 종료일: 2026.09.30 / 주간 합계 160만원
+# ============================================================
+DC_DCA_SCHEDULE = {
+    "account": "62636131-55",
+    "total_weekly": 1_600_000,
+    "end_date": "2026-09-30",
+    "items": [
+        {"name": "TIGER 반도체TOP10", "amount": 500_000, "day": "목", "time": "15:00", "type": "시장가"},
+        {"name": "ACE KRX금현물", "amount": 100_000, "day": "화", "time": "15:00", "type": "시장가"},
+        {"name": "TIGER 코리아원자력", "amount": 500_000, "day": "화", "time": "15:00", "type": "시장가"},
+        {"name": "KoAct 코스닥액티브", "amount": 200_000, "day": "화", "time": "15:00", "type": "시장가"},
+        {"name": "KODEX 증권", "amount": 300_000, "day": "화", "time": "15:00", "type": "시장가"},
+    ],
+}
 
 # 경제지표 티커 (Yahoo Finance)
 ECONOMIC_INDICATORS = {
